@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Enunciado</h2>
+    <p>
+        El sistema debe cumplir con los siguientes requisitos:
+            1. Tener una clase abstracta Vehiculo que:
+            ○ No pueda ser instanciada directamente. Fijaos en si esto se puede hacer de
+            forma nativa en Javascript. Analizad el uso de las clases abstractas en este
+            lenguaje en comparación con Java.
+
+            ○ Tenga las propiedades:
+            ■ marca
+            ■ modelo
+            ■ velocidadMaxima
+            ○ Declare un método abstracto acelerar() que debe implementarse en las
+            subclases.
+            ○ Tenga un método común detener() que muestre:
+            "El [tipo de vehículo] se ha detenido."
+
+            2. Tenga dos subclases que hereden de Vehiculo:
+            ○ Auto
+            ■ Tiene una propiedad adicional: puertas.
+            ■ Implementa el método acelerar() mostrando:
+            "El auto acelera hasta X km/h."
+
+            ○ Bicicleta
+            ■ Tiene una propiedad adicional: tipo (por ejemplo: montaña, urbana).
+
+            ■ Implementa el método acelerar() mostrando:
+            "La bicicleta alcanza una velocidad de X km/h
+            pedaleando."
+
+            3. Crear al menos una instancia de cada subclase y:
+            ○ Llamar a sus métodos acelerar() y detener().
+            ○ Intentar instanciar Vehiculo y comprobar que lanza un error.
+    </p>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
