@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<p>
+			Nombre = "
+			<strong id="name">*******</strong>
+			"
+			<br />
+			Fecha nacimiento = "
+			<strong id="date">*******</strong>
+			"
+			<br />
+			Ciudad = "
+			<strong id="city">*******</strong>
+			"
+			<br />
+		</p>
+		<form action="" id="formulario">
+			<div>
+				<label for="nombre">Nombre:</label>
+				<input type="text" id="nombre" name="nombre" />
+			</div>
+			<br />
+			<div>
+				<label for="fecha">Fecha nacimiento:</label>
+				<input type="datetime-local" id="fecha" name="fecha" />
+			</div>
+			<br />
+			<div>
+				<label>Selecciona País:</label>
+				<div id="paises-container" class="mi-contenedor-paises"></div>
+			</div>
+			<br />
+			<button type="submit">Enviar</button>
+		</form>
+
+		<p id="valores"></p>
+
+		<script>
+			// 1. Correct Array Syntax
+			const paises = ["Spain", "Colombia", "Canada", "United States"];
+
+			// 2. Select the container where we want to put the HTML
+			const container = document.getElementById("paises-container");
+
+			// 3. Loop through the array
+			paises.forEach((pais) => {
+				// Create a container for the pair (label + input) for better formatting
+				const capsula = document.createElement("div");
+				capsula.className = "radio-group";
+
+				const input = document.createElement("input");
+				input.type = "radio";
+				input.name = "pais_seleccionado";
+				input.value = pais;
+				input.id = pais;
+
+				const label = document.createElement("label");
+				label.htmlFor = pais; // Esta etiqueta conecta la etiqueta de texto con el boon de radio correspondiente
+				label.textContent = pais;
+
+				capsula.appendChild(input); // Indica que los contenedores input y  label son hijos del div capsula
+				capsula.appendChild(label); // Indica que los contenedores input y  label son hijos del div capsula
+				container.appendChild(capsula); // Indicaa que el capsula es hijo del container
+			});
+
+			const formulario = document.getElementById("formulario");
+			const valores = document.getElementById("valores");
+
+			const nameStrong = document.getElementById("name");
+			const dateStrong = document.getElementById("date");
+			const cityStrong = document.getElementById("city");
+
+			formulario.addEventListener("submit", function (evento) {
+
+				evento.preventDefault();
+
+                const nombreInput = document.getElementById("nombre").value;
+                
+                const dateInput = document.getElementById("fecha").value;
+
+                const selectedCountryElement = document.querySelector(
+                    'input[name="pais_seleccionado"]:checked'
+                );
+
+				const countryValue = selectedCountryElement ? selectedCountryElement.value : "No seleccionado";
+
+                nameStrong.textContent = nombreInput;
+                dateStrong.textContent = dateInput;
+                cityStrong.textContent = countryValue;
+                
+            });
+		</script>
+	</body>
+</html>
