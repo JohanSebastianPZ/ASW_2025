@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			//Ejercicio 1: Abstracción y Encapsulamiento
+			class Vehiculo {
+				#velocidad = 0;
+				#estadoMotor = false;
+
+				constructor(marca, modelo) {
+					this.marca = marca;
+					this.modelo = modelo;
+				}
+
+				encenderMotor() {
+					console.log("El estado antes de la ejecucion es: " + this.#estadoMotor);
+					this.#estadoMotor = true;
+					console.log("El estado despues de la ejecucion es: " + this.#estadoMotor);
+				}
+
+				acelerar(incremento) {
+					console.log("La velocidad antes es: " + this.#velocidad);
+					this.#velocidad += incremento;
+					console.log("La velocidad despues es: " + this.#velocidad);
+				}
+
+				mostrarInformacion() {
+					console.log("Marca: " + this.marca + " Modelo: " + this.modelo);
+				}
+			}
+
+			//Ejercicio 2: Herencia
+
+			class Coche extends Vehiculo {
+				constructor(marca, modelo, numPuertas) {
+					super(marca, modelo);
+					this.numPuertas = numPuertas;
+				}
+				acelerar(incremento) {
+					super.acelerar(incremento);
+					console.log("mensaje específico sobre el motor.");
+				}
+				mostrarInformacion() {
+                    super.mostrarInformacion();
+					console.log("TIENE " + this.numPuertas + " puertas");
+				}
+			}
+			class Bicicleta extends Vehiculo {
+				constructor(marca, modelo) {
+					super(marca, modelo);
+				}
+				encenderMotor() {
+					console.log("No se puede encender motor, porque la bicicleta no tiene motor");
+				}
+				acelerar(incremento) {
+					super.acelerar(incremento);
+					console.log("mensaje específico sobre la fuerza humana.");
+				}
+			}
+
+			// Estas son las prueba del vehiculo
+			console.log("======================== Creacion y prueba Vehiculo ========================");
+			const vehiculo = new Vehiculo("Vehiculo", "Vehiculo");
+			vehiculo.encenderMotor();
+			vehiculo.acelerar(100);
+			console.log("============================================================================");
+
+			// Estas son las pruebas del coche
+			console.log("======================== Creacion y prueba Coche ========================");
+			const coche = new Coche("Coche", "Coche", 5);
+			coche.encenderMotor();
+			coche.acelerar(200);
+			console.log("============================================================================");
+
+			// Estas son las pruebas de la bicicleta
+			console.log("======================== Creacion y prueba Bicicleta ========================");
+			const bicicleta = new Bicicleta("Bicicleta", "Bicicleta");
+			bicicleta.encenderMotor();
+			bicicleta.acelerar(300);
+			console.log("============================================================================");
+
+			// Ejercicio 4: Integración y Función Polimórfica
+
+			function inspeccionarVehiculo(Vehiculo) {
+				Vehiculo.mostrarInformacion();
+			}
+			console.log("======================== Inspeccionar Vehiculos ========================");
+			inspeccionarVehiculo(vehiculo);
+			inspeccionarVehiculo(coche);
+			inspeccionarVehiculo(bicicleta);
+			console.log("============================================================================");
+		</script>
+	</body>
+</html>
