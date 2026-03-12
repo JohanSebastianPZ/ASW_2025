@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Prueba Nivel</title>
+        <style>
+            :root {
+                --bg-color: #ffffff;
+                --text-color: #333333;
+            }
+
+            /*Quan body ---> dark */
+            body.dark_mode {
+                --bg-color: #1a1a1a;
+                --text-color: #f0f0f0;
+            }
+
+            body {
+                background-color: var(--bg-color);
+                color: var(--text-color);
+                transition:
+                    background-color 0.4s,
+                    color 0.4s; /*Añadir animación de transición suave*/
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <button id="btn_modo">Cambiar modo</button>
+            <!--Part 1 mostrar el nomre com promot-->
+            <h1>Gestor de Tareas</h1>
+            <p id="Hola"></p>
+            <!--Mostrar el nombre con id-->
+        </header>
+        <section>
+            <h2>Añadir un tarea</h2>
+            <input id="taskInput" type="text" placeholder="Escribe una tarea" />
+            <button id="addBtn">Añadir</button>
+            <ul id="taskList"></ul>
+        </section>
+        <section>
+            <div class="reloj">
+                <h2>
+                    Hora actual:
+                    <strong id="hora"></strong>
+                </h2>
+            </div>
+            <div class="dimensionesPantalla">
+                <h3>
+                    Alto Pantalla:
+                    <strong id="alto"></strong>
+                </h3>
+                <h3>
+                    Ancho Pantalla:
+                    <strong id="ancho"></strong>
+                </h3>
+            </div>
+            <div class="frases">
+                <p class="frase">
+                    Tipo:
+                    <strong id="f_tipo"></strong>
+                    Frase:
+                    <strong id="f_text"></strong>
+                </p>
+            </div>
+        </section>
+        <script>
+            // ==================================================== PARTE 1 ====================================================
+
+            window.addEventListener("load", () => {
+                // examinar local si o no
+                let nombre = localStorage.getItem("usuario_nombre"); // localStroage es para guardar el nombre indefinida
+
+                // si no hay nombre ,
+                if (!nombre) {
+                    const regexNumero = /\d/;
+
+                    do {
+                        nombre = prompt("Introducir tu numbre(NO NÚMERO): "); // intro nombre
+                    } while (regexNumero.test(nombre)); // si nombre hay nuero pues loops
+
+                    // guardar en web storage
+                    localStorage.setItem("usuario_nombre", nombre);
+                }
+
+                const hola = document.getElementById("Hola");
+                hola.textContent = "Holaa" + nombre;
+            });
+
+            // ==================================================== PARTE 2 ====================================================
+
+            // # ---- RELOJ DIGITAL ---- #
+
+            // Esta funcion muesra la hora actual
+            function horaActual() {
+                const contenedorHora = document.getElementById("hora");
+                const horaActual = new Date();
+                contenedorHora.textContent = horaActual.toLocaleTimeString();
+            }
+            // La funcion se la paso al setInterval
+            // Como la funcion no retorna nada, solo tengo que hacer una referencia
+            setInterval(horaActual, 1000);
+
+            // # ---- GENERADOR DE MENSAJES ALEATORIOS ---- #
+
+            // Este es el array con las frases motivacionales
+            frasesMotivacionales = [
+                { categoria: "Motivacion", texto: "No cuentes los días, haz que los días cuenten." },
+                { categoria: "Amor", texto: "El amor no tiene cura, pero es la única cura para todos los males." },
+                { categoria: "filosofia", texto: "La felicidad de tu vida depende de la calidad de tus pensamientos." },
+                { categoria: "Motivación", texto: "La disciplina es el puente entre las metas y los logros." },
+                { categoria: "Filosofía", texto: "No es que tengamos poco tiempo, es que perdemos mucho." },
+            ];
+
+            // Aqui tomo los elementos del DOM
+            const frase = document.getElementById("f_tipo");
+            const texto = document.getElementById("f_text");
+
+            // Aqui se genera un numero random, por la cantidad de frases que tenga el array frasesMotivacionales
+            const n_random = Math.floor(Math.random() * frasesMotivacionales.length);
+            // Aqui tomo la frase random
+            const frase_random = frasesMotivacionales[n_random];
+
+            // le asigno el valor de la categoria y del texto al objeto que me dio el DOM para poder mostrarlo en pantalla
+            frase.textContent = frase_random.categoria;
+            texto.textContent = frase_random.texto;
+
+            // ==================================================== PARTE 3 ====================================================
+            // obtener los elementos del DOM
+            const input = document.getElementById("taskInput");
+            const btn = document.getElementById("addBtn");
+            const list = document.getElementById("taskList");
+
+            // añadir TAREA
+            function addTask() {
+                const text = input.value.trim(); // quitar el espacio de iniciar y final
+
+                if (text === "") {
+                    return;
+                }
+
+                // crear LI
+
+                const li = document.createElement("li"); // crear un variable de elemeto li
+                li.textContent = text; // Aquí es para muestra todos container que tiene
+
+                // click tarea para mostrar el container
+                li.addEventListener("click", function () {
+                    console.log("Tarea: ", text);
+                });
+
+                // btn de eliminar
+                const deleteBTN = document.createElement("button");
+                deleteBTN.textContent = "Eliminar"; // El botón que se muestra dice "Eliminar".
+
+                // ELIMINAR Y evitar la propagación de eventos
+                deleteBTN.addEventListener("click", function (e) {
+                    // event object
+                    e.stopPropagation(); // evitar la activación de eventos de clic de mostrar container
+                    li.remove();
+                });
+
+                // añdair btn a li
+                li.append(deleteBTN);
+
+                // añadir li a list
+                list.appendChild(li);
+
+                // Borrar el cuadro de entrada
+
+                input.value = "";
+            }
+
+            btn.addEventListener("click", addTask);
+
+            // ==================================================== PARTE 4 ====================================================
+
+            document.addEventListener("keydown", function (e) {
+                if (e.key === "Enter") {
+                    addTask();
+                }
+            });
+
+            // ==================================================== PARTE 5 ====================================================
+
+            // # ---- 5.1 Modo oscuro dinámico (1,5 pt) ---- #
+
+            // Vincula el evento después de que la página haya terminado de cargarse.
+            window.addEventListener("load", function () {
+                var btn = document.getElementById("btn_modo");
+
+                btn.addEventListener("click", function () {
+                    // toggle ---> Cambiar automáticamente los nombres de las clases
+                    document.body.classList.toggle("dark_mode");
+
+                    // Guarda el estado actual en la memoria para que
+                    // pueda restaurarse después de una actualización.
+                    if (document.body.classList.contains("dark_mode")) {
+                        localStorage.setItem("tema", "dark");
+                    } else {
+                        localStorage.setItem("tema", "light");
+                    }
+                });
+
+                // Restaurar tema guardado
+                var temaGuardado = localStorage.getItem("tema");
+                if (temaGuardado == "dark") {
+                    document.body.classList.add("dark_mode");
+                }
+            });
+
+            // # ---- 5.2 Monitorización de la ventana (1,5 pt) ---- #
+            const alto = document.getElementById("alto");
+            const ancho = document.getElementById("ancho");
+
+            window.addEventListener("resize", function (e) {
+                dimensiones();
+            });
+            function dimensiones() {
+                alto.textContent = window.innerHeight;
+                ancho.textContent = window.innerWidth;
+            }
+            dimensiones();
+        </script>
+    </body>
+</html>
