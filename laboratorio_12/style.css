@@ -1,0 +1,34 @@
+/* 1. Layout: Etiquetas en bloques independientes */
+label {
+    display: block;
+    margin-top: 15px; /* Separación superior para que respire el diseño */
+    margin-bottom: 5px; /* Separación entre el label y el input */
+    font-weight: bold;
+}
+
+/* 3. Personalización: Ancho cómodo para los campos (60%) */
+input[type="text"], 
+input[type="email"],
+input[type="password"], 
+select,
+textarea {
+    width: 60%;
+    padding: 8px; /* Un poco de relleno interno para que no se vea pegado */
+    box-sizing: border-box; /* Evita que el padding sume más ancho al 60% */
+}
+
+/* 3. Personalización: Fondo del fieldset */
+fieldset {
+    background-color: azure;
+    padding: 20px;
+    border: 1px solid #b3d4fc; /* Borde azul suave que combina con azure */
+    border-radius: 8px; /* Bordes redondeados para un toque más moderno */
+}
+
+/* Extra: Estilo básico para el botón para que no se quede pegado */
+button {
+    display: block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
